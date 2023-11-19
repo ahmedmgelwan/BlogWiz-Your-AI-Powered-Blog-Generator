@@ -85,8 +85,8 @@ def generate_title_thumbnail(titles: list, filed: str):
 
 def blog_post_format(blog_post_title: str, filed: list):
     blog_post = genrate_blog_post(blog_post_title)
-    titles = extract_titles(blog_post)
-    thums = generate_title_thumbnail(titles, filed)
+    title = extract_titles(blog_post)[0]
+    thums = generate_title_thumbnail(title, filed)
     formatd_blog_post = ''
     for line in blog_post.splitlines():
         for key, value in thums.items():
