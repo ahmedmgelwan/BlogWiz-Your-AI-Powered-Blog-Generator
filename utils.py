@@ -23,7 +23,7 @@ def genrate_blog_post(title: str) -> str:
 
         Title: Craft a captivating and SEO-friendly title for the blog post.
         Comprehensive Blog Post: Deliver a complete and detailed blog post that encompasses all aspects of the chosen topic and if it is related to programming provide some simple examples.
-        Main Ideas: Present three main ideas within the blog post, each supported by a simple question and answer in an embed way to make reader able to test and solidify it knowledge.
+        Main Ideas: Present three main ideas within the blog post, each supported by a simple question and answer in an embed way to make reader able to test and solidify it knowledge `Must be presented as HEDAING 2 (##)`.
         Conclusion: Summarize the key concepts discussed in the blog post, leaving the reader with a clear understanding of the subject matter.
         notice that output must be written in markdown format.
     '''
@@ -42,8 +42,7 @@ def genrate_blog_post(title: str) -> str:
 
 
 def extract_titles(blog_post: str) -> list:
-    titles = re.findall(r'(?:#{1,2}\s|\*+).+: (.+\b)',
-                        blog_post, flags=re.MULTILINE)
+    titles = re.findall(r'^(?:#{1,2}\s[^:]+): (.+)', blog_post)
     return titles
 
 
@@ -85,13 +84,17 @@ def generate_title_thumbnail(titles: list, filed: str):
 
 def blog_post_format(blog_post_title: str, filed: list):
     blog_post = genrate_blog_post(blog_post_title)
-    title = extract_titles(blog_post)[0]
-    thums = generate_title_thumbnail(title, filed)
+    print(f'The Blog post is:\n{blog_post}')
+    titles = extract_titles(blog_post)
+    thums = generate_title_thumbnail(titles, filed)
+
     formatd_blog_post = ''
     for line in blog_post.splitlines():
         for key, value in thums.items():
             if key in line:
-                formatd_blog_post += line + f'\n![{key}]({value})'+'\n'
+                formatd_blog_post += f'![{key}]({value})\n'
+        if 'Main Ideas' in line:
+            pass
         else:
             formatd_blog_post += line + '\n'
     formatd_blog_post = re.sub('[^#+|\*+\s](.+): ', '', formatd_blog_post)
