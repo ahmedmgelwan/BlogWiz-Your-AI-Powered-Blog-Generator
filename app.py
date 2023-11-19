@@ -56,7 +56,7 @@ if 'blog_post' in st.session_state:
     st.download_button(
         label="Download Blog Post",
         data=st.session_state.blog_post,
-        file_name="generated_blog_post.md",blog_post
+        file_name="generated_blog_post.md",
         key="download_btn"
     )
 
